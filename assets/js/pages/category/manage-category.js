@@ -7,8 +7,8 @@ var TableDatatables = function() {
             "processing": true,
             "serverSide": true,
             "ajax": {
-                url: baseURL + filePath, //base url ka constant use nahi kr sakte
-                type: "POST", //default get hai abh post likha
+                url: baseURL + filePath,
+                type: "POST",
                 data: {
                     "page": "manage_category"
                 }
@@ -25,12 +25,34 @@ var TableDatatables = function() {
                 'targets': [0, -1]
             }]
         });
+        manageCategoryTable.on('click', '.edit', function(e) {
+            alert("hello");
+            var id = $(this).data('id');
+            //console.log(id);
+            $("#edit_category_id").val(id);
+            $('#edit_category_name').val($(this).data('name'));
+            //Fetching all other values from the database using AJAX add loading them onto their respective fields in the modal
+            $.ajax({
+                url: baseURL + filePath,
+                method: "POST",
+                data: {
+                    "category_id": id,
+                    "fetch": "category"
+                },
+                dataType: "json",
+                success: function(data) { //kinda then of promise in ajax js
+                    console.log(data.name);
+                    $('#edit_category_name').val(data.name);
+                }
+            })
+        })
         new $.fn.dataTable.Buttons(oTable, {
             buttons: [
                 'copy', 'csv', 'pdf'
             ]
         });
-        oTable.buttons().container().appendTo($('#export-buttons'));
+        oTable.buttons().container()
+            .appendTo($('#export-buttons'));
     }
     return {
 

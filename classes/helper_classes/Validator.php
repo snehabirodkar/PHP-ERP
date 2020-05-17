@@ -56,7 +56,7 @@ class Validator
               {
                      if(!call_user_func_array([$this,$rule], [$field, $value, $satisfier]))
                      {
-                            //store the error in the error handler
+                            // store the error in the error handler
                             $this->errorHandler->addError(str_replace([':field', ':satisfier'],
                             [$field,$satisfier],$this->messages[$rule]), $field);
                      }

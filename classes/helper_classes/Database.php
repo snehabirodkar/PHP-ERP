@@ -78,7 +78,7 @@ class Database{
         $i=0;
         foreach($data as $key => $value)
         {
-            $columnKeyValue .= "$key = $key";
+            $columnKeyValue .= "$key = :$key";
             $i++;
             if($i < count($data))
             {
@@ -86,6 +86,7 @@ class Database{
             } 
         }
         $sql = "UPDATE {$table} SET {$columnKeyValue} WHERE {$condition}";
+    
         $this->stmt = $this->pdo->prepare($sql);
         return $this->stmt->execute($data);
     }

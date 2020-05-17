@@ -32,7 +32,7 @@ class Session
     }
     public static function getSession($key){
         if(self::hasSession($key)){
-            return $_SESSION[$key];//session number
+            return $_SESSION[$key]; //session number
         }
         return null;
     }

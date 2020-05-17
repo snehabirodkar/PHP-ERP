@@ -3,13 +3,14 @@
     $page_title ="Quick ERP | MANAGE CATEGORY";
     $sidebarSection = 'category';
     $sidebarSubSection = 'manage';
+    Util::createCSRFToken();
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
+  
   <?php
     require_once __DIR__."/../includes/head-section.php";
     
@@ -74,7 +75,7 @@
 
                     <div class="card-body">
                         <table class="table table-bordered table-responsive" id="manage-category-table">
-                        <div id="export-buttons" ></div>    
+                        <div id="export-buttons"></div>    
                         <thead>
                                 <tr>
                                     <th>#</th>
@@ -91,6 +92,48 @@
 
       </div>
       <!-- End of Main Content -->
+
+
+      <!-- EDIT MODAL -->
+
+      <!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="<?= BASEURL;?>helper/routing.php" method="POST">
+              <div class="modal-body">
+                <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
+                <input type="hidden" name="category_id" id="edit_category_id">
+                <div class="form-group row">
+                  <div class="col-sm-5">
+                    <label for="">Category Name</label>
+                  </div>
+                  <div class="col-sm-7">
+                    <input type="text" name="category_name" id="edit_category_name" class="form-control">
+                  </div>
+                </div>
+              </div>
+           
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-success" name="editCategory">Save changes</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+<!-- End of edit modal -->
+
+      <!-- END OF EDIT MODAL -->
 
       <!-- Footer -->
       <?php require_once __DIR__."/../includes/footer.php"; ?>
