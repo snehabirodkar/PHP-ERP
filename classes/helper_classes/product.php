@@ -106,13 +106,12 @@ BUTTONS;
     }
     public function update($data,$id)
     {
-        $data_to_be_updated = ['name' => $data['category_name']];
-        $this->validateData($data_to_be_updated);
+        $this->validateData($data);
         if(!$this->validator->fails())
         {
             try{
                 $this->database->beginTransaction();
-               
+                $data_to_be_updated = ['name' => $data['category_name']];
                 $this->database->update($this->table,$data_to_be_updated,"id = {$id}");
                 $this->database->commit();
                 return UPDATE_SUCCESS;
@@ -126,17 +125,17 @@ BUTTONS;
         }
         
     }
-        public function delete($id)
-        {
-            try{
-                $this->database->beginTransaction();
-                $this->database->delete($this->table,"id={$id}");
-                $this->database->commit();
-                return DELETE_SUCCESS;
-            }catch(Exception $e){
-                $this->database->rollBack();
-                return DELETE_ERROR;
-            }
+    public function delete($id)
+    {
+        try{
+            $this->database->beginTransaction();
+            $this->database->delete($this->table,"id={$id}");
+            $this->database->commit();
+            return DELETE_SUCCESS;
+        }catch(Exception $e){
+            $this->database->rollBack();
+            return DELETE_ERROR;
         }
+    }
 }
 ?>

@@ -26,9 +26,9 @@
         Modules
       </div>
 
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item <?= $sidebarSection=='category' ? 'active' : '';?>">
-        <a class="nav-link <?= $sidebarSection=='category' ? '' : 'collapsed';?>" href="#" 
+      <!-- Nav Item - Pages Collapse Menu-Category -->
+      <li class="nav-item <?= $sidebarSection =='category' ? 'active' : '';?>">
+        <a class="nav-link <?= $sidebarSection =='category' ? '' : 'collapsed';?>" href="#" 
         data-toggle="collapse" 
         data-target="#collapseCategory" 
         aria-expanded="true" 
@@ -37,7 +37,7 @@
           <span>Category</span>
         </a>
         <div id="collapseCategory" 
-        class="collapse <?= $sidebarSection=='category' ? 'show' : '';?>" 
+        class="collapse <?= $sidebarSection =='category' ? 'show' : '';?>" 
         aria-labelledby="headingTwo" 
         data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
@@ -49,19 +49,72 @@
         </div>
       </li>
 
-      <!-- Nav Item - Utilities Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Utilities</span>
+      <!-- Nav Item - Utilities Collapse Customer Menu -->
+      <li class="nav-item <?= $sidebarSection =='customer' ? 'active' : '';?>">
+        <a class="nav-link <?= $sidebarSection =='customer' ? '' : 'collapsed';?>" href="#" 
+        data-toggle="collapse" 
+        data-target="#collapseCustomer" 
+        aria-expanded="true" 
+        aria-controls="collapseCustomer">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Customer</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseCustomer" 
+        class="collapse <?= $sidebarSection =='customer' ? 'show' : '';?>" 
+        aria-labelledby="headingTwo" 
+        data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <a class="collapse-item <?= $sidebarSubSection=='add' ? 'active' : '';?>" 
+                href="<?= BASEPAGES;?>add-customer.php">Add Customer</a>
+            <a class="collapse-item <?= $sidebarSubSection=='manage' ? 'active' : '';?>" 
+                href="<?= BASEPAGES;?>manage-customer.php">Manage Customer</a>
+          </div>
+        </div>
+      </li>
+
+    <!-- Nav Item - Pages Collapse Menu-Supplier -->
+    <li class="nav-item <?= $sidebarSection =='supplier' ? 'active' : '';?>">
+        <a class="nav-link <?= $sidebarSection =='supplier' ? '' : 'collapsed';?>" href="#" 
+        data-toggle="collapse" 
+        data-target="#collapseSupplier" 
+        aria-expanded="true" 
+        aria-controls="collapseSupplier">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Supplier</span>
+        </a>
+        <div id="collapseSupplier" 
+        class="collapse <?= $sidebarSection =='supplier' ? 'show' : '';?>" 
+        aria-labelledby="headingTwo" 
+        data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item <?= $sidebarSubSection=='add' ? 'active' : '';?>" 
+                href="<?= BASEPAGES;?>add-supplier.php">Add Supplier</a>
+            <a class="collapse-item <?= $sidebarSubSection=='manage' ? 'active' : '';?>" 
+                href="<?= BASEPAGES;?>manage-supplier.php">Manage Supplier</a>
+          </div>
+        </div>
+      </li>
+
+
+      <!-- Nav Item - Pages Collapse Menu-Product -->
+      <li class="nav-item <?= $sidebarSection =='product' ? 'active' : '';?>">
+        <a class="nav-link <?= $sidebarSection =='product' ? '' : 'collapsed';?>" href="#" 
+        data-toggle="collapse" 
+        data-target="#collapseProduct" 
+        aria-expanded="true" 
+        aria-controls="collapseProduct">
+          <i class="fas fa-fw fa-cog"></i>
+          <span>Product</span>
+        </a>
+        <div id="collapseProduct" 
+        class="collapse <?= $sidebarSection =='product' ? 'show' : '';?>" 
+        aria-labelledby="headingTwo" 
+        data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item <?= $sidebarSubSection=='add' ? 'active' : '';?>" 
+                href="<?= BASEPAGES;?>add-product.php">Add Product</a>
+            <a class="collapse-item <?= $sidebarSubSection=='manage' ? 'active' : '';?>" 
+                href="<?= BASEPAGES;?>manage-product.php">Manage Product</a>
           </div>
         </div>
       </li>

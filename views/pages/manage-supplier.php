@@ -1,9 +1,8 @@
 <?php
     require_once __DIR__."/../../helper/init.php";
-    $page_title ="Quick ERP | MANAGE CATEGORY";
-    $sidebarSection = 'category';
-    $sidebarSubSection = 'manage';
-    Util::createCSRFToken();
+    $page_title ="Quick ERP | MANAGE Supplier";
+    $sidebarSection = 'supplier';
+    $sidebarSubSection = 'manage-supplier';
 ?>
 
 <!DOCTYPE html>
@@ -67,19 +66,24 @@
         <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Manage Category</h1>
+                <h1 class="h3 mb-4 text-gray-800">Manage Supplier</h1>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary ">Categories</h6>
+                        <h6 class="m-0 font-weight-bold text-primary ">Supplier</h6>
                     </div>
 
                     <div class="card-body">
-                        <table class="table table-bordered table-responsive" id="manage-category-table">
-                        <div id="export-buttons"></div>    
+                        <table class="table table-bordered " id="manage-supplier-table">
+                        <!-- <div id="export-buttons"></div>     -->
                         <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Category Name</th>
+                                    <th>Name</th>
+                                    <!-- <th>Last Name</th> -->
+                                    <th>gst No</th>
+                                    <th>Phone No</th>
+                                    <th>Email</th>
+                                    <th>Company Name</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -89,59 +93,18 @@
 
             </div>
             <!-- /.container-fluid -->
-
+         
       </div>
       <!-- End of Main Content -->
 
 
-      <!-- EDIT MODAL -->
+            <!-- Modal -->
 
-      <!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="<?= BASEURL;?>helper/routing.php" method="POST">
-              <div class="modal-body">
-                <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
-                <input type="hidden" name="category_id" id="edit_category_id">
-                <div class="form-group row">
-                  <div class="col-sm-5">
-                    <label for="">Category Name</label>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" name="category_name" id="edit_category_name" class="form-control">
-                  </div>
-                </div>
-              </div>
-           
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success" name="editCategory">Save changes</button>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div>
-<!-- End of edit modal -->
-
-      <!-- END OF EDIT MODAL -->
-
-
-      <!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">delete Category</h5>
+              <h5 class="modal-title" id="deleteModalLabel">delete Supplier</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -156,12 +119,13 @@
            
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-danger" name="deleteCategory">Delete changes</button>
+              <button type="submit" class="btn btn-danger" name="deleteSupplier">Delete changes</button>
             </div>
             </form>
           </div>
         </div>
       </div>
+
 <!-- End of delete modal -->
 
       <!-- Footer -->
@@ -180,9 +144,7 @@
   <?php require_once __DIR__."/../includes/core-scripts.php"; ?>
 
   <?php require_once __DIR__."/../includes/page-level/index-scripts.php"; ?>
-  <?php require_once __DIR__."/../includes/page-level/manage-category-scripts.php"; ?>
-   <script src="<?=BASEASSETS?>js/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="<?=BASEASSETS?>js/pages/category/add-category.js"></script>
+  <?php require_once __DIR__."/../includes/page-level/manage-supplier-scripts.php"; ?>
 </body>
 
 </html>

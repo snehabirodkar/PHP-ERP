@@ -1,10 +1,8 @@
 <?php
 class Database{
     private $di;
-    
     private $pdo;
     private $stmt;
-
     private $debug;
     private $host;
     private $username;
@@ -37,7 +35,7 @@ class Database{
         }
         catch(PDOException $e)
         {
-            die($this->debug ? $e->getMessage() : "Error While connecting to databaase");
+            die($this->debug ? $e->getMessage() : "Error Whule connecting to databaase");
         }
     }
     public function query($sql)
@@ -53,12 +51,16 @@ class Database{
     }
     public function insert(string $table,$data)
     {
+        
         $keys = array_keys($data);
-
+       
         $fields = "`". implode("`, `", $keys). "`";
         $placeholder = ":". implode(", :",$keys);
+        
         $sql = "INSERT INTO `{$table}` ({$fields}) VALUES ({$placeholder})";
+        
         $this->stmt = $this->pdo->prepare($sql);
+        
         $this->stmt->execute($data);
         return $this->pdo->lastInsertId();
     }
@@ -69,30 +71,30 @@ class Database{
 
     public function delete(string $table, $condition)
     {
-        
         $sql = "UPDATE {$table} SET deleted = 1 WHERE {$condition}";
         $this->stmt = $this->pdo->prepare($sql);
-        // Util::dd($sql);
         return $this->stmt->execute();
     }
 
-    public function update(string $table, $data, $condition = "1")
+    public function update(string $table,$data, $condition="1")
     {
         $columnKeyValue = "";
-        $i=0;
+        $i = 0;
         foreach($data as $key => $value)
         {
             $columnKeyValue .= "$key = :$key";
             $i++;
-            if($i < count($data))
+            if($i<count($data))
             {
-                $columnKeyValue.= ", ";
-            } 
+                $columnKeyValue .= ", ";
+            }
         }
         $sql = "UPDATE {$table} SET {$columnKeyValue} WHERE {$condition}";
-        
+        // 
         $this->stmt = $this->pdo->prepare($sql);
+        //Util::dd($this->stmt);
         return $this->stmt->execute($data);
+
     }
 
     public function readData($table,$fields = [],$condition= "1", $readMode = PDO::FETCH_OBJ)
@@ -114,7 +116,7 @@ class Database{
     {
         //$data['name'=>'HT'];
         $field = array_keys($data)[0];    
-        $result = $this->readData($table,[],"{$field} = '{$data[$field]}' and deleted=0",PDO::FETCH_ASSOC);
+        $result = $this->readData($table,[],"{$field} = '{$data[$field]}' and deleted = 0",PDO::FETCH_ASSOC);
         if(count($result) > 0)
         {
             return true;
