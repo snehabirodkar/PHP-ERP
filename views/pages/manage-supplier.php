@@ -1,8 +1,8 @@
 <?php
-    require_once __DIR__."/../../helper/init.php";
-    $page_title ="Quick ERP | MANAGE Supplier";
-    $sidebarSection = 'supplier';
-    $sidebarSubSection = 'manage-supplier';
+require_once __DIR__."/../../helper/init.php";
+$pageTitle = "Easy ERP | Manage Supplier";
+$sidebarSection = "supplier";
+$sidebarSubSection = "manage";
 ?>
 
 <!DOCTYPE html>
@@ -10,14 +10,13 @@
 
 <head>
 
-  <?php
-    require_once __DIR__."/../includes/head-section.php";
-    
+  <?php 
+  require_once __DIR__."/../includes/head-section.php";
   ?>
-  <link rel="stylesheet" href="<?=BASEASSETS?>css/plugins/toastr/toastr.min.css">
-  <link rel="stylesheet" href="<?=BASEASSETS?>vendor/datatables/dataTables.min.css">
-  
 
+  <!-- PLACE TO ADD YOUR CUSTOM CSS -->
+  <link rel="stylesheet" href="<?=BASEASSETS;?>vendor/toastr/toastr.min.css">
+  <link href="<?= BASEASSETS; ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -25,9 +24,9 @@
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-    <!-- Sidebar -->
-    <?php require_once __DIR__."/../includes/sidebar.php"; ?>
-    <!-- End of Sidebar -->
+    <?php
+    require_once __DIR__."/../includes/sidebar.php";
+    ?>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
@@ -35,116 +34,98 @@
       <!-- Main Content -->
       <div id="content">
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-
-          <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-
-          <!-- Topbar Navbar -->
-        <?php require_once __DIR__."/../includes/navbar.php"; ?>
-
-        </nav>
-        <!-- End of Topbar -->
+        <?php
+        require_once __DIR__."/../includes/navbar.php";
+        ?>
 
         <!-- Begin Page Content -->
-        <!-- Page Heading -->
         <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Manage Supplier</h1>
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary ">Supplier</h6>
-                    </div>
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Supplier</h1>
+            <a href="<?= BASEPAGES;?>add-supplier.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                <i class="fa fa-plus fa-sm text-white-75"></i> Add Supplier
+            </a>
+          </div>
 
-                    <div class="card-body">
-                        <table class="table table-bordered " id="manage-supplier-table">
-                        <!-- <div id="export-buttons"></div>     -->
-                        <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <!-- <th>Last Name</th> -->
-                                    <th>gst No</th>
-                                    <th>Phone No</th>
-                                    <th>Email</th>
-                                    <th>Company Name</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-
+          <!-- MANAGE SUPPLIER DATATABLE -->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m=0 font-weight-bold text-primary">Manage Suppliers</h6>
             </div>
-            <!-- /.container-fluid -->
-         
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="manage-supplier-datatable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Full Name</th>
+                      <th>GST No</th>
+                      <th>Phone No</th>
+                      <th>Email id</th>
+                      <th>Company Name</th>
+                      <th>Address</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!--/MANAGE SUPPLIER DATATABLE -->
+
+        </div>
+        <!-- /.container-fluid -->
+
       </div>
       <!-- End of Main Content -->
 
-
-            <!-- Modal -->
-
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">delete Supplier</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="<?= BASEURL;?>helper/routing.php" method="POST">
-              <div class="modal-body">
-                <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
-
-                <input type="hidden" name="record_id" id="delete_record_id">
-              <p class="text-muted">Are you sure you want to delete?</p>
-              </div>
-           
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-danger" name="deleteSupplier">Delete changes</button>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-<!-- End of delete modal -->
-
-      <!-- Footer -->
-      <?php require_once __DIR__."/../includes/footer.php"; ?>
-      <!-- End of Footer -->
+      <?php
+      require_once __DIR__."/../includes/footer.php";
+      ?>
 
     </div>
     <!-- End of Content Wrapper -->
 
   </div>
   <!-- End of Page Wrapper -->
+  <!--DELETE MODAL-->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="<?= BASEURL;?>helper/routing.php" method="POST">
+          <div class="modal-body">
+            <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
+            <input type="hidden" name="record_id" id="record_id">
+            <p>Are you sure you want to delete this record?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger" name="delete_supplier">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--/DELETE MODAL-->
 
-  <!-- Scroll to Top Button-->
-  
-  <?php require_once __DIR__."/../includes/scroll-to-top.php"; ?>
-  <?php require_once __DIR__."/../includes/core-scripts.php"; ?>
+  <?php
+  require_once __DIR__."/../includes/scroll-to-top.php";
+  ?>
 
-  <?php require_once __DIR__."/../includes/page-level/index-scripts.php"; ?>
-  <?php require_once __DIR__."/../includes/page-level/manage-supplier-scripts.php"; ?>
+  <?php
+  require_once __DIR__."/../includes/core-scripts.php";
+  ?>
+
+  <?php
+  require_once(__DIR__."/../includes/page-level/supplier/manage-supplier-scripts.php");
+  ?>
 </body>
 
 </html>

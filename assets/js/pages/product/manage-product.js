@@ -1,53 +1,43 @@
-var TableDatatables = function() {
-    var handleProductTable = function() {
-        var manageProductTable = $("#manage-product-table");
+
+var TableDataTables = function(){
+    var handleProductTable = function(){
+        var manageProductTable = $("#manage-product-datatable");
         var baseURL = window.location.origin;
         var filePath = "/helper/routing.php";
-        var oTable = manageProductTable.DataTable({
+        var oTable = manageProductTable.dataTable({
             "processing": true,
             "serverSide": true,
             "ajax": {
                 url: baseURL + filePath,
-                type: "POST",
+                method: "POST",
                 data: {
                     "page": "manage_product"
                 }
             },
             "lengthMenu": [
-                [5, 15, 25, -1],
-                [5, 15, 25, "All"]
+                [5, 10, 20, -1],
+                [5, 10, 20, "All"]
             ],
             "order": [
-                [1, "desc"]
+                [1, "ASC"]
             ],
             "columnDefs": [{
                 'orderable': false,
                 'targets': [0, -1]
-            }]
+            }],
         });
 
-
-        manageProductTable.on('click', '.delete', function(e) {
-            var id = $(this).data('id');
-            $("#delete_record_id").val(id);
-        });
-        new $.fn.dataTable.Buttons(oTable, {
-            buttons: [
-                'copy', 'csv', 'pdf'
-            ]
-        });
-        oTable.buttons().container()
-            .appendTo($('#export-buttons'));
+        manageProductTable.on('click', '.delete', function(){
+            id = $(this).attr('id');
+            $("#record_id").val(id);
+        });  
     }
-    return {
-        //main function to handle all the datatables
-
-        init: function() {
+    return{
+        init: function(){
             handleProductTable();
         }
     }
 }();
-
-jQuery(document).ready(function() {
-    TableDatatables.init();
-});
+jQuery(document).ready(function(){
+    TableDataTables.init();
+})

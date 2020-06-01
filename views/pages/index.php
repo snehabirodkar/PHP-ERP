@@ -1,17 +1,20 @@
 <?php
-require_once __DIR__. "/../../helper/init.php";
-$page_title = "Quick ERP | Dashboard";
-$sidebarSection = 'dashboard';
+require_once __DIR__."/../../helper/init.php";
+$pageTitle = "Easy ERP | Dashboard";
+$sidebarSection = "dashboard";
+$sidebarSubSection = "";
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 
-  <?php
-      require_once __DIR__."/../includes/head-section.php";
-  ?> 
+  <?php 
+  require_once __DIR__."/../includes/head-section.php";
+  ?>
 
+  <!-- PLACE TO ADD YOUR CUSTOM CSS -->
 </head>
 
 <body id="page-top">
@@ -19,41 +22,19 @@ $sidebarSection = 'dashboard';
   <!-- Page Wrapper -->
   <div id="wrapper">
 
-    <!-- Sidebar -->
     <?php
-      require_once __DIR__."/../includes/sidebar.php";
-  ?> 
-
+    require_once __DIR__."/../includes/sidebar.php";
+    ?>
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
 
       <!-- Main Content -->
       <div id="content">
-      
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-
-          <!-- Topbar Search -->
-<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
-              </div>
-            </div>
-          </form>
         <?php
-          require_once __DIR__."/../includes/navbar.php";
-        ?> 
-        <!-- End of Topbar NAVIGATION-->
+        require_once __DIR__."/../includes/navbar.php";
+        ?>
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
@@ -315,7 +296,7 @@ $sidebarSection = 'dashboard';
                 </div>
                 <div class="card-body">
                   <div class="text-center">
-                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="img/undraw_posting_photo.svg" alt="">
+                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="<?=BASEASSETS?>img/undraw_posting_photo.svg" alt="">
                   </div>
                   <p>Add some quality, svg illustrations to your project courtesy of <a target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a constantly updated collection of beautiful svg images that you can use completely free and without attribution!</p>
                   <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
@@ -342,11 +323,9 @@ $sidebarSection = 'dashboard';
       </div>
       <!-- End of Main Content -->
 
-      <!-- Footer -->
       <?php
       require_once __DIR__."/../includes/footer.php";
-      ?> 
-      <!-- End of Footer -->
+      ?>
 
     </div>
     <!-- End of Content Wrapper -->
@@ -354,17 +333,17 @@ $sidebarSection = 'dashboard';
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  
   <?php
-      require_once __DIR__."/../includes/scroll-to-top.php";
-  ?> 
+  require_once __DIR__."/../includes/scroll-to-top.php";
+  ?>
+
   <?php
-      require_once __DIR__."/../includes/core-scripts.php";
-  ?> 
+  require_once __DIR__."/../includes/core-scripts.php";
+  ?>
+
   <?php
-      require_once __DIR__."/../includes/page-level/index-scripts.php";
-  ?> 
+  require_once __DIR__."/../includes/page-level/index-scripts.php";
+  ?>
 
 </body>
 

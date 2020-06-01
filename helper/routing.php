@@ -1,395 +1,390 @@
 <?php
 require_once 'init.php';
+
 if(isset($_POST['add_category']))
 {
-    if(Util::verifyCSRFToken($_POST))
+    //USER HAS REQUESTED TO ADD A NEW CATEGORY
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
     {
-        
         $result = $di->get('category')->addCategory($_POST);
-        
         switch($result)
         {
             case ADD_ERROR:
-                Session::setSession(ADD_ERROR,"Add Category Error");
-                Util::redirect("manage-category.php");
+                Session::setSession(ADD_ERROR, 'There was problem while inserting record, please try again later!');
+                Util::redirect('manage-category.php');
                 break;
             case ADD_SUCCESS:
-                Session::setSession(ADD_SUCCESS,"Add Category Success");
-                Util::redirect("manage-category.php");
+                Session::setSession(ADD_SUCCESS, 'The record have been added successfully!');
+                // Util::dd();
+                Util::redirect('manage-category.php');
                 break;
             case VALIDATION_ERROR:
-                Session::setSession('validation',"Validation Error");
-                Session::setSession('old',$_POST);
-                ?>
-                <h2>Session Serial</h2>
-                <?php
-                Session::setSession('errors',serialize($di->get('category')->getValidator()->errors()));//object mai hai ya array hai to text mai store kar sakeee!
-                Util::redirect("add-category.php");
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                Util::redirect('add-category.php');
                 break;
         }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-category.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
     }
 }
-if(isset($_POST['add_customer']))
+if(isset($_POST['edit_category']))
 {
-    if(Util::verifyCSRFToken($_POST))
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
     {
-        
+        $result = $di->get('category')->update($_POST, $_POST['category_id']);
+        switch($result)
+        {
+            case EDIT_ERROR:
+                Session::setSession(EDIT_ERROR, 'There was problem while editing record, please try again later!');
+                Util::redirect('manage-category.php');
+                break;
+            case EDIT_SUCCESS:
+                Session::setSession(EDIT_SUCCESS, 'The record have been updated successfully!');
+                // Util::dd();
+                Util::redirect('manage-category.php');
+                break;
+            case VALIDATION_ERROR:
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                Util::redirect('manage-category.php');
+                break;
+        }
+    }
+}
+if(isset($_POST["add_customer"]))
+{
+    //USER HAS REQUESTED TO ADD A NEW CUSTOMER
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
         $result = $di->get('customer')->addCustomer($_POST);
-        
-        
         switch($result)
         {
             case ADD_ERROR:
-                Session::setSession(ADD_ERROR,"Add Customer Error");
-                Util::redirect("manage-customer.php");
+                Session::setSession(ADD_ERROR, "There was problem while inserting record, please try again later!");
+                Util::redirect('manage-customer.php');
                 break;
             case ADD_SUCCESS:
-                Session::setSession(ADD_SUCCESS,"Add customer Success");
-                Util::redirect("manage-customer.php");
+                Session::setSession(ADD_SUCCESS, "The record have been added successfully!");
+                Util::redirect('manage-customer.php');
                 break;
             case VALIDATION_ERROR:
-                Session::setSession('validation',"Validation Error");
-                Session::setSession('old',$_POST);
-                ?>
-                <h2>Session Serial</h2>
-                <?php
-                Session::setSession('errors',serialize($di->get('customer')->getValidator()->errors()));//object mai hai ya array hai to text mai store kar sakeee!
-                Util::redirect("add-customer.php");
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                Util::redirect('add-customer.php');
                 break;
         }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-customer.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
     }
 }
-
+if(isset($_POST["edit_customer"]))
+{
+    //USER HAS REQUESTED TO ADD A NEW CUSTOMER
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('customer')->editCustomer($_POST);
+        switch($result)
+        {
+            case EDIT_ERROR:
+                Session::setSession(EDIT_ERROR, "There was problem while inserting record, please try again later!");
+                Util::redirect('manage-customer.php');
+                break;
+            case EDIT_SUCCESS:
+                Session::setSession(EDIT_SUCCESS, "The record have been updated successfully!");
+                Util::redirect('manage-customer.php');
+                break;
+            case VALIDATION_ERROR:
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                $id = $_POST['id'];
+                Util::redirect('edit-customer.php?id='.$id);
+                break;
+        }
+    }
+}
+if(isset($_POST["add_supplier"]))
+{
+    //USER HAS REQUESTED TO ADD A NEW CUSTOMER
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('supplier')->addSupplier($_POST);
+        switch($result)
+        {
+            case ADD_ERROR:
+                Session::setSession(ADD_ERROR, "There was problem while inserting record, please try again later!");
+                Util::redirect('manage-supplier.php');
+                break;
+            case ADD_SUCCESS:
+                Session::setSession(ADD_SUCCESS, "The record have been added successfully!");
+                Util::redirect('manage-supplier.php');
+                break;
+            case VALIDATION_ERROR:
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                Util::redirect('add-supplier.php');
+                break;
+        }
+    }
+}
+if(isset($_POST["edit_supplier"]))
+{
+    //USER HAS REQUESTED TO ADD A NEW CUSTOMER
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('supplier')->editSupplier($_POST);
+        switch($result)
+        {
+            case EDIT_ERROR:
+                Session::setSession(EDIT_ERROR, "There was problem while inserting record, please try again later!");
+                Util::redirect('manage-supplier.php');
+                break;
+            case EDIT_SUCCESS:
+                Session::setSession(EDIT_SUCCESS, "The record have been updated successfully!");
+                Util::redirect('manage-supplier.php');
+                break;
+            case VALIDATION_ERROR:
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                $id = $_POST['id'];
+                Util::redirect('edit-supplier.php?id='.$id);
+                break;
+        }
+    }
+}
+if(isset($_POST["add_employee"]))
+{
+    //USER HAS REQUESTED TO ADD A NEW CUSTOMER
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('employee')->addEmployee($_POST);
+        switch($result)
+        {
+            case ADD_ERROR:
+                Session::setSession(ADD_ERROR, "There was problem while inserting record, please try again later!");
+                Util::redirect('manage-employee.php');
+                break;
+            case ADD_SUCCESS:
+                Session::setSession(ADD_SUCCESS, "The record have been added successfully!");
+                Util::redirect('manage-employee.php');
+                break;
+            case VALIDATION_ERROR:
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                Util::redirect('add-employee.php');
+                break;
+        }
+    }
+}
+if(isset($_POST["edit_employee"]))
+{
+    //USER HAS REQUESTED TO ADD A NEW CUSTOMER
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('employee')->editEmployee($_POST);
+        switch($result)
+        {
+            case EDIT_ERROR:
+                Session::setSession(EDIT_ERROR, "There was problem while inserting record, please try again later!");
+                Util::redirect('manage-employee.php');
+                break;
+            case EDIT_SUCCESS:
+                Session::setSession(EDIT_SUCCESS, "The record have been updated successfully!");
+                Util::redirect('manage-employee.php');
+                break;
+            case VALIDATION_ERROR:
+                Session::setSession(VALIDATION_ERROR, "There was some problem in validating your data at server side!");
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                $id = $_POST['id'];
+                Util::redirect('edit-employee.php?id='.$id);
+                break;
+        }
+    }
+}
 
 if(isset($_POST['page']))
 {
-    if($_POST['page'] == 'manage_category')
-    {
-        $dependency = 'category';
-    }
-    elseif($_POST['page'] == 'manage_customer'){
-        
-        $dependency = 'customer';
-    }
-    elseif($_POST['page'] == 'manage_supplier'){
-        
-        $dependency = 'supplier';
-    }
-    elseif($_POST['page'] == 'manage_product'){
-        
-        $dependency = 'product';
-    }
-    //&_POST['search']['value']
-    //&_POST['start']
-    //&_POST['length']
-    //&_POST['order']
-    //&_POST['draw']
-    // Util::dd($dependency);
     $search_parameter = $_POST['search']['value'] ?? null;
     $order_by = $_POST['order'] ?? null;
     $start = $_POST['start'];
     $length = $_POST['length'];
     $draw = $_POST['draw'];
-    
-    $di->get($dependency)->getJSONDataForDataTable($draw,$search_parameter,$order_by,$start,$length);
-    
-}
-if(isset($_POST['fetch']))
-{
-    if($_POST['fetch'] == 'category')
-    {
-        $category_id = $_POST['category_id'];
-        $result = $di->get('category')->getCategoryByID($category_id,PDO::FETCH_ASSOC);
-        echo json_encode($result[0]);
-    }
-
-    if($_POST['fetch'] == 'customer')
-    {
-        $customer_id = $_POST['customer_id'];
-        $result = $di->get('customer')->getCustomerByID($customer_id, PDO::FETCH_ASSOC);
-        echo json_encode($result[0]);
-    }
-
-    if($_POST['fetch'] == 'supplier')
-    {
-        $supplier_id = $_POST['supplier_id'];
-        $result = $di->get('supplier')->getSupplierByID($supplier_id, PDO::FETCH_ASSOC);
-        echo json_encode($result[0]);
+    if( $_POST['page'] == 'manage_category'){
+        $di->get("category")->getJSONDataForDataTable($draw, $search_parameter, $order_by, $start, $length);
+    }else if($_POST['page'] == 'manage_supplier'){
+        $di->get("supplier")->getJSONDataForDataTable($draw, $search_parameter, $order_by, $start, $length);
+    }else if($_POST['page'] == 'manage_customer'){
+        $di->get("customer")->getJSONDataForDataTable($draw, $search_parameter, $order_by, $start, $length);
+    }else if($_POST['page'] == 'manage_employee'){
+        $di->get("employee")->getJSONDataForDataTable($draw, $search_parameter, $order_by, $start, $length);
+    }else if($_POST['page'] == 'manage_product'){
+        $di->get("product")->getJSONDataForDataTable($draw, $search_parameter, $order_by, $start, $length);
     }
 }
 
-
-if(isset($_POST['editCategory']))
+if(isset($_POST['fetch']) && $_POST['fetch'] == 'category')
 {
-    if(Util::verifyCSRFToken($_POST))
-    {
-        
-        $result = $di->get('category')->update($_POST,$_POST['category_id']);
-
-        
-        switch($result)
-        {
-            case UPDATE_ERROR:
-                Session::setSession(UPDATE_ERROR,"Update Category Error");
-                Util::redirect("manage-category.php");
-                break;
-            case UPDATE_SUCCESS:
-                Session::setSession(UPDATE_SUCCESS,"Update Category Success");
-                Util::redirect("manage-category.php");
-                break;
-            case VALIDATION_ERROR:
-                Session::setSession('validation',"Validation Error");
-                Session::setSession('old',$_POST);
-                Session::setSession('errors',serialize($di->get('category')->getValidator()->errors()));//object mai hai ya array hai to text mai store kar sakeee!
-                Util::redirect("manage-category.php");
-                break;
-        }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-category.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
-    }
+    // Util::dd($_POST);
+    $category_id = $_POST['category_id'];
+    $result = $di->get('category')->getCategoryById($category_id, PDO::FETCH_ASSOC);
+    echo json_encode($result);
 }
 
-
-if(isset($_POST['editCustomer']))
+if(isset($_POST['delete_category']))
 {
-    // Util::dd("isha");
-    if(Util::verifyCSRFToken($_POST))
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
     {
-        
-        $result = $di->get('customer')->update($_POST,$_POST['id']);
-
-        // Util::dd($result);
-        switch($result)
-        {
-            
-            case UPDATE_ERROR:
-                Session::setSession(UPDATE_ERROR,"Update Customer Error");
-                Util::redirect("edit-customer.php");
-                break;
-            case UPDATE_SUCCESS:
-                Session::setSession(UPDATE_SUCCESS,"Update Customer Success");
-                Util::redirect("manage-customer.php");
-                break;
-            case VALIDATION_ERROR:
-                Session::setSession('validation',"Validation Error");
-                Session::setSession('old', $_POST);
-                Session::setSession('errors',serialize($di->get('customer')->getValidator()->errors()));//object mai hai ya array hai to text mai store kar sakeee!
-                Util::redirect("edit-customer.php");
-                break;
-        }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-customer.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
-    }
-}
-
-
-
-if(isset($_POST['deleteCategory']))
-{
-    // Util::dd("isha");
-    if(Util::verifyCSRFToken($_POST))
-    {
-        
         $result = $di->get('category')->delete($_POST['record_id']);
-
-        // Util::dd($result);
         switch($result)
         {
-            
             case DELETE_ERROR:
-                Session::setSession(DELETE_ERROR,"Update Category Error");
-                Util::redirect("edit-category.php");
+                Session::setSession(DELETE_ERROR, 'There was problem while deleting record, please try again later!');
+                Util::redirect('manage-category.php');
                 break;
             case DELETE_SUCCESS:
-                Session::setSession(DELETE_SUCCESS,"Update Category Success");
-                Util::redirect("manage-category.php");
+                Session::setSession(DELETE_SUCCESS, 'The record have been deleted successfully!');
+                // Util::dd();
+                Util::redirect('manage-category.php');
                 break;
         }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-category.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
     }
 }
 
-
-
-
-if(isset($_POST['deleteCustomer']))
+if(isset($_POST['delete_customer']))
 {
-    // Util::dd("isha");
-    if(Util::verifyCSRFToken($_POST))
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
     {
-        
         $result = $di->get('customer')->delete($_POST['record_id']);
-
-        // Util::dd($result);
         switch($result)
         {
-            
             case DELETE_ERROR:
-                Session::setSession(DELETE_ERROR,"Update customer Error");
-                Util::redirect("edit-customer.php");
+                Session::setSession(DELETE_ERROR, 'There was problem while deleting record, please try again later!');
+                Util::redirect('manage-customer.php');
                 break;
             case DELETE_SUCCESS:
-                Session::setSession(DELETE_SUCCESS,"Update customer Success");
-                Util::redirect("manage-customer.php");
+                Session::setSession(DELETE_SUCCESS, 'The record have been deleted successfully!');
+                Util::redirect('manage-customer.php');
                 break;
         }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-customer.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
     }
 }
 
-
-if(isset($_POST['add_supplier']))
+if(isset($_POST['delete_supplier']))
 {
-    if(Util::verifyCSRFToken($_POST))
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
     {
-        
-        $result = $di->get('supplier')->addSupplier($_POST);
-        
+        $result = $di->get('supplier')->delete($_POST['record_id']);
+        switch($result)
+        {
+            case DELETE_ERROR:
+                Session::setSession(DELETE_ERROR, 'There was problem while deleting record, please try again later!');
+                Util::redirect('manage-supplier.php');
+                break;
+            case DELETE_SUCCESS:
+                Session::setSession(DELETE_SUCCESS, 'The record have been deleted successfully!');
+                Util::redirect('manage-supplier.php');
+                break;
+        }
+    }
+}
+
+if(isset($_POST['delete_employee']))
+{
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('employee')->delete($_POST['record_id']);
+        switch($result)
+        {
+            case DELETE_ERROR:
+                Session::setSession(DELETE_ERROR, 'There was problem while deleting record, please try again later!');
+                Util::redirect('manage-employee.php');
+                break;
+            case DELETE_SUCCESS:
+                Session::setSession(DELETE_SUCCESS, 'The record have been deleted successfully!');
+                Util::redirect('manage-employee.php');
+                break;
+        }
+    }
+}
+
+if(isset($_POST['delete_product']))
+{
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('product')->delete($_POST['record_id']);
+        switch($result)
+        {
+            case DELETE_ERROR:
+                Session::setSession(DELETE_ERROR, 'There was problem while deleting record, please try again later!');
+                Util::redirect('manage-product.php');
+                break;
+            case DELETE_SUCCESS:
+                Session::setSession(DELETE_SUCCESS, 'The record have been deleted successfully!');
+                Util::redirect('manage-product.php');
+                break;
+        }
+    }
+}
+
+/****************************************************************
+ ****************************PRODUCT MANAGEMENT******************
+ ****************************************************************/
+
+if(isset($_POST['add_product']))
+{
+    //USER HAS REQUESTED TO ADD A NEW CATEGORY
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
+    {
+        $result = $di->get('product')->addProduct($_POST);
         switch($result)
         {
             case ADD_ERROR:
-                Session::setSession(ADD_ERROR,"Add supplier Error");
-                Util::redirect("manage-supplier.php");
+                Session::setSession(ADD_ERROR, 'There was problem while inserting record, please try again later!');
+                Util::redirect('manage-product.php');
                 break;
             case ADD_SUCCESS:
-                Session::setSession(ADD_SUCCESS,"Add supplier Success");
-                Util::redirect("manage-supplier.php");
+                Session::setSession(ADD_SUCCESS, 'The record have been added successfully!');
+                // Util::dd();
+                Util::redirect('manage-product.php');
                 break;
             case VALIDATION_ERROR:
-                Session::setSession('validation',"Validation Error");
-                Session::setSession('old',$_POST);
-                ?>
-                <h2>Session Serial</h2>
-                <?php
-                Session::setSession('errors',serialize($di->get('supplier')->getValidator()->errors()));//object mai hai ya array hai to text mai store kar sakeee!
-                Util::redirect("add-supplier.php");
-                break;
-        }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-customer.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
-    }
-}
-
-if(isset($_POST['editSupplier']))
-{
-    // Util::dd("isha");
-    if(Util::verifyCSRFToken($_POST))
-    {
-        
-        $result = $di->get('supplier')->update($_POST,$_POST['id']);
-
-        // Util::dd($result);
-        switch($result)
-        {
-            
-            case UPDATE_ERROR:
-                Session::setSession(UPDATE_ERROR,"Update supplier Error");
-                Util::redirect("edit-supplier.php");
-                break;
-            case UPDATE_SUCCESS:
-                Session::setSession(UPDATE_SUCCESS,"Update supplier Success");
-                Util::redirect("manage-supplier.php");
-                break;
-            case VALIDATION_ERROR:
-                Session::setSession('validation',"Validation Error");
+                Session::setSession(VALIDATION_ERROR, 'There was some problem in validating your data at server side!');
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
                 Session::setSession('old', $_POST);
-                Session::setSession('errors',serialize($di->get('supplier')->getValidator()->errors()));//object mai hai ya array hai to text mai store kar sakeee!
-                Util::redirect("edit-supplier.php");
+                Util::redirect('add-product.php');
                 break;
         }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-supplier.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
     }
 }
 
-
-
-if(isset($_POST['deleteCategory']))
+if(isset($_POST['edit_product']))
 {
-    // Util::dd("isha");
-    if(Util::verifyCSRFToken($_POST))
+    //USER HAS REQUESTED TO ADD A NEW CATEGORY
+    if(isset($_POST['csrf_token']) && Util::verifyCSRFToken($_POST))
     {
-        
-        $result = $di->get('category')->delete($_POST['record_id']);
-
-        // Util::dd($result);
+        $result = $di->get('product')->editProduct($_POST);
         switch($result)
         {
-            
-            case DELETE_ERROR:
-                Session::setSession(DELETE_ERROR,"Update Category Error");
-                Util::redirect("edit-category.php");
+            case EDIT_ERROR:
+                Session::setSession(EDIT_ERROR, 'There was problem while editing record, please try again later!');
+                Util::redirect('manage-product.php');
                 break;
-            case DELETE_SUCCESS:
-                Session::setSession(DELETE_SUCCESS,"Update Category Success");
-                Util::redirect("manage-category.php");
+            case EDIT_SUCCESS:
+                Session::setSession(EDIT_SUCCESS, 'The record have been edited successfully!');
+                // Util::dd();
+                Util::redirect('manage-product.php');
                 break;
-        }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-category.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
-    }
-}
-
-
-if(isset($_POST['deleteSupplier']))
-{
-    // Util::dd("isha");
-    if(Util::verifyCSRFToken($_POST))
-    {
-        
-        $result = $di->get('supplier')->delete($_POST['record_id']);
-
-        // Util::dd($result);
-        switch($result)
-        {
-            
-            case DELETE_ERROR:
-                Session::setSession(DELETE_ERROR,"Update supplier Error");
-                Util::redirect("edit-supplier.php");
-                break;
-            case DELETE_SUCCESS:
-                Session::setSession(DELETE_SUCCESS,"Update supplier Success");
-                Util::redirect("manage-supplier.php");
+            case VALIDATION_ERROR:
+                Session::setSession(VALIDATION_ERROR, 'There was some problem in validating your data at server side!');
+                Session::setSession('errors', serialize($di->get('validator')->errors()));
+                Session::setSession('old', $_POST);
+                $id = $_POST['id'];
+                Util::redirect('edit-product.php?id='.$id);
                 break;
         }
-    }else{
-        //errorpage 
-        Session::setSession("csrf","CSRF ERROR");
-        Util::redirect("manage-supplier.php");//Need to change this, actually we be redirecting to some error page indicating Unauthorized access.
-
     }
 }
-?>

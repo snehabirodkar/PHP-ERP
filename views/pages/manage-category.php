@@ -1,188 +1,134 @@
 <?php
-    require_once __DIR__."/../../helper/init.php";
-    $page_title ="Quick ERP | MANAGE CATEGORY";
-    $sidebarSection = 'category';
-    $sidebarSubSection = 'manage';
-    Util::createCSRFToken();
+require_once __DIR__ . '/../../helper/init.php';
+$pageTitle = "Easy ERP | Manage Category";
+$sidebarSection = "category";
+$sidebarSubSection = "manage";
+Util::createCSRFToken();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
-  <?php
-    require_once __DIR__."/../includes/head-section.php";
-    
-  ?>
-  <link rel="stylesheet" href="<?=BASEASSETS?>css/plugins/toastr/toastr.min.css">
-  <link rel="stylesheet" href="<?=BASEASSETS?>vendor/datatables/dataTables.min.css">
-  
-
+  <?php require_once __DIR__ . "/../includes/head-section.php"; ?>
+  <!--PLACE TO ADD YOUR CUSTOM CSS-->
+  <link rel="stylesheet" href="<?= BASEASSETS; ?>vendor/toastr/toastr.min.css">
+  <link href="<?= BASEASSETS; ?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
-
   <!-- Page Wrapper -->
   <div id="wrapper">
-
-    <!-- Sidebar -->
-    <?php require_once __DIR__."/../includes/sidebar.php"; ?>
-    <!-- End of Sidebar -->
-
+    <?php require_once(__DIR__ . "/../includes/sidebar.php"); ?>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
       <!-- Main Content -->
       <div id="content">
+        <?php require_once(__DIR__ . "/../includes/navbar.php"); ?>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Category</h1>
+            <a href="<?= BASEPAGES; ?>add-category.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+              <i class="fa fa-plus fa-sm text-white-75"></i> Add Category
+            </a>
+          </div>
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-
-          <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
+          <!--MANAGE CATEGORY DATATABLE-->
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Manage Categories</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="manage-category-datatable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Category Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                </table>
               </div>
             </div>
-          </form>
-
-          <!-- Topbar Navbar -->
-        <?php require_once __DIR__."/../includes/navbar.php"; ?>
-
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content -->
-        <!-- Page Heading -->
-        <div class="container-fluid">
-
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Manage Category</h1>
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary ">Categories</h6>
-                    </div>
-
-                    <div class="card-body">
-                        <table class="table table-bordered table-responsive" id="manage-category-table">
-                        <div id="export-buttons"></div>    
-                        <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Category Name</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-
-            </div>
-            <!-- /.container-fluid -->
-
+          </div>
+        </div>
+        <!-- /.container-fluid -->
       </div>
       <!-- End of Main Content -->
 
-
-      <!-- EDIT MODAL -->
-
-      <!-- Button trigger modal -->
-
-
-<!-- Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="<?= BASEURL;?>helper/routing.php" method="POST">
-              <div class="modal-body">
-                <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
-                <input type="hidden" name="category_id" id="edit_category_id">
-                <div class="form-group row">
-                  <div class="col-sm-5">
-                    <label for="">Category Name</label>
-                  </div>
-                  <div class="col-sm-7">
-                    <input type="text" name="category_name" id="edit_category_name" class="form-control">
-                  </div>
-                </div>
-              </div>
-           
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-success" name="editCategory">Save changes</button>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div>
-<!-- End of edit modal -->
-
-      <!-- END OF EDIT MODAL -->
-
-
-      <!-- Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="deleteModalLabel">delete Category</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <form action="<?= BASEURL;?>helper/routing.php" method="POST">
-              <div class="modal-body">
-                <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
-
-                <input type="hidden" name="record_id" id="delete_record_id">
-              <p class="text-muted">Are you sure you want to delete?</p>
-              </div>
-           
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-danger" name="deleteCategory">Delete changes</button>
-            </div>
-            </form>
-          </div>
-        </div>
-      </div>
-<!-- End of delete modal -->
-
       <!-- Footer -->
-      <?php require_once __DIR__."/../includes/footer.php"; ?>
+      <?php require_once(__DIR__ . "/../includes/footer.php"); ?>
       <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
-
   </div>
   <!-- End of Page Wrapper -->
 
-  <!-- Scroll to Top Button-->
-  
-  <?php require_once __DIR__."/../includes/scroll-to-top.php"; ?>
-  <?php require_once __DIR__."/../includes/core-scripts.php"; ?>
+  <!--EDIT MODAL-->
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel">Edit Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="<?= BASEURL;?>helper/routing.php" method="POST">
+          <div class="modal-body">
+            <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
+            <input type="hidden" name="category_id" id="category_id">
+            <div class="form-group-row">
+                <label for="name" class="col-sm-12">Category Name</label>
+                <input type="text" class="form-control" id="category_name" name="category_name">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary" name="edit_category">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--/EDIT MODAL-->
 
-  <?php require_once __DIR__."/../includes/page-level/index-scripts.php"; ?>
-  <?php require_once __DIR__."/../includes/page-level/manage-category-scripts.php"; ?>
-   <script src="<?=BASEASSETS?>js/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="<?=BASEASSETS?>js/pages/category/add-category.js"></script>
+
+  <!--DELETE MODAL-->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Delete?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="<?= BASEURL;?>helper/routing.php" method="POST">
+          <div class="modal-body">
+            <input type="hidden" name="csrf_token" id="csrf_token" value="<?= Session::getSession('csrf_token');?>">
+            <input type="hidden" name="record_id" id="record_id">
+            <p>Are you sure you want to delete this record?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger" name="delete_category">Delete</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!--/DELETE MODAL-->
+  <?php
+  require_once(__DIR__ . "/../includes/scroll-to-top.php");
+  ?>
+  <?php require_once(__DIR__ . "/../includes/core-scripts.php"); ?>
+  <!--PAGE LEVEL SCRIPTS-->
+  <?php require_once(__DIR__ . "/../includes/page-level/category/manage-category-scripts.php"); ?>
+
+
 </body>
 
 </html>

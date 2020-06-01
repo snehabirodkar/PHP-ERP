@@ -1,153 +1,102 @@
 <?php
-require_once __DIR__."/../../helper/init.php";
-$page_title ="Quick ERP | ADD CATEGORY";
-    $sidebarSection = 'category';
-    $sidebarSubSection = 'add';
-    Util::createCSRFToken();
-  $errors="";
-  $old="";
-  if(Session::hasSession('old'))
-  {
-    $old = Session::getSession('old');
-    Session::unsetSession('old');
-  }
-  if(Session::hasSession('errors'))
-  {
-    $errors = unserialize(Session::getSession('errors'));
-    Session::unsetSession('errors');
-  }
+require_once __DIR__ . '/../../helper/init.php';
+$pageTitle = "Easy ERP | Add Category";
+$sidebarSection = "category";
+$sidebarSubSection = "add";
+Util::createCSRFToken();
+$errors = "";
+if (Session::hasSession('errors')) {
+  $errors = unserialize(Session::getSession('errors'));
+  Session::unsetSession('errors');
+}
+$old = "";
+if (Session::hasSession('old')) {
+  $old = Session::getSession('old');
+  Session::unsetSession('old');
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
   <?php
-    require_once __DIR__."/../includes/head-section.php";
+  require_once __DIR__ . "/../includes/head-section.php";
   ?>
-  
+
+  <!--PLACE TO ADD YOUR CUSTOM CSS-->
 
 </head>
 
 <body id="page-top">
-
   <!-- Page Wrapper -->
   <div id="wrapper">
-
-    <!-- Sidebar -->
-    <?php require_once __DIR__."/../includes/sidebar.php"; ?>
-    <!-- End of Sidebar -->
-
+    <?php require_once(__DIR__ . "/../includes/sidebar.php"); ?>
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
-
       <!-- Main Content -->
       <div id="content">
+        <?php require_once(__DIR__ . "/../includes/navbar.php"); ?>
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
 
-        <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Category</h1>
+            <a href="<?= BASEPAGES; ?>manage-category.php" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+              <i class="fa fa-list-ul fa-sm text-white-75"></i> Manage Category
+            </a>
+          </div>
 
-          <!-- Sidebar Toggle (Topbar) -->
-          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
+          <div class="row">
 
-          <!-- Topbar Search -->
-          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-            <div class="input-group">
-              <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                  <i class="fas fa-search fa-sm"></i>
-                </button>
+            <div class="col-lg-12">
+
+              <!-- Basic Card Example -->
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold text-primary">Add Category</h6>
+                </div>
+                <div class="card-body">
+                  <div class="col-md-12">
+
+                    <form action="<?= BASEURL; ?>helper/routing.php" method="POST" id="add-category">
+                      <input type="hidden" name="csrf_token" value="<?= Session::getSession('csrf_token'); ?>">
+                      <!--FORM GROUP-->
+                      <div class="form-group">
+                        <label for="name">Category Name</label>
+                        <input type="text" name="name" id="name" class="form-control <?= $errors != '' && $errors->has('name') ? 'error' : ''; ?>" placeholder="Enter Category Name" value="<?= $old != '' && isset($old['name']) ? $old['name'] : ''; ?>" />
+                        <?php
+                        if ($errors != "" && $errors->has('name')) {
+                          echo "<span class='error'>{$errors->first('name')}</span>";
+                        }
+                        ?>
+                      </div>
+                      <!--/FORM GROUP-->
+                      <button type="submit" class="btn btn-primary" name="add_category" value="addCategory"><i class="fa fa-check"></i> Submit</button>
+                    </form>
+
+                  </div>
+                </div>
               </div>
             </div>
-          </form>
-
-          <!-- Topbar Navbar -->
-        <?php require_once __DIR__."/../includes/navbar.php"; ?>
-
-        </nav>
-        <!-- End of Topbar -->
-
-        <!-- Begin Page Content-->
-        
-        <!-- Page Heading -->
-        <div class="container-fluid">
-            <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">Add Category</h1>
-                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                    <i class="fas fa-list-ul fa-sm text-white"></i>Manage Category</a>
-            </div>
+          </div>
         </div>
         <!-- /.container-fluid -->
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card show mb-4">
-                        <div class="card-header">
-                            <h6 class="m-0 font-weight-bold text-primary">
-                                    <i class="fa fa-plus"></i>Add Category
-                            </h6>
-                        </div>
-                        <!--END OF CARD HEADER-->
-
-                        <!--CARD BODY-->
-                        <div class="card-body">
-                          <form id="add-category" action="<?= BASEURL?>helper/routing.php" method="POST">
-                            <input type="hidden"
-                              name="csrf_token"
-                              value="<?= Session::getSession('csrf_token');?>">
-                            <div class="row">
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="name">Category Name</label>
-                                  <input type="text" 
-                                    class="form-control <?= $errors!= '' ? ($errors->has('name') ? 'error is-invalid' : '') : '';?>"
-                                    name="name"
-                                    id="name"  
-                                    placeholder="Enter Category Name"
-                                    value="<?= $old != '' ?$old['name']: '';?>"
-                                  >
-                                </div>
-                                <?php
-                                if($errors!="" && $errors->has('name')):
-                                  echo "<span class='error'> {$errors->first('name')}</span>";
-                                endif;
-                                ?>
-                              </div>
-                            </div>
-                            <input type="submit" class="btn btn-primary" name="add_category" value="submit">
-                          </form>
-                        </div>
-                        <!--END OF CARD BODY-->
-                    </div>
-                </div>
-            </div>
-        </div>
+      </div>
       <!-- End of Main Content -->
-</div>
       <!-- Footer -->
-      <?php require_once __DIR__."/../includes/footer.php"; ?>
+      <?php require_once(__DIR__ . "/../includes/footer.php"); ?>
       <!-- End of Footer -->
-
     </div>
     <!-- End of Content Wrapper -->
-
   </div>
   <!-- End of Page Wrapper -->
+  <?php
+  require_once(__DIR__ . "/../includes/scroll-to-top.php");
+  ?>
+  <?php require_once(__DIR__ . "/../includes/core-scripts.php"); ?>
 
-  <!-- Scroll to Top Button-->
-  
-  <?php require_once __DIR__."/../includes/scroll-to-top.php"; ?>
-  <?php require_once __DIR__."/../includes/core-scripts.php"; ?>
-
-  <?php require_once __DIR__."/../includes/page-level/index-scripts.php"; ?>
-  <script src="<?=BASEASSETS?>js/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="<?=BASEASSETS?>js/pages/category/add-category.js"></script>
-
-
+  <!--PAGE LEVEL SCRIPTS-->
+  <?php require_once(__DIR__ . "/../includes/page-level/category/add-category-scripts.php"); ?>
 </body>
 
 </html>

@@ -1,7 +1,9 @@
-<script src="<?= BASEASSETS; ?>/js/plugins/toastr/toastr.min.js"></script>
+<script src="<?=BASEASSETS;?>vendor/toastr/toastr.min.js"></script>
+<script src="<?=BASEASSETS;?>vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="<?=BASEASSETS;?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script>
-    toastr.option = {
-        "closeButton": false,
+    toastr.options = {
+        "closeButton": true,
         "debug": false,
         "newestOnTop": false,
         "progressBar": true,
@@ -18,21 +20,43 @@
         "hideMethod": "fadeOut"
     }
     <?php
-        if(Session::hasSession(ADD_SUCCESS)):
+    if(Session::hasSession(VALIDATION_ERROR)):
     ?>
-    toastr.success("new category has been added successfully !","Added");
+        toastr.error("<?=Session::getSession(VALIDATION_ERROR);?>", "Failed");
+    <?php
+        Session::unsetSession(VALIDATION_ERROR);
+    elseif(Session::hasSession(ADD_SUCCESS)):
+    ?>
+        toastr.success("<?=Session::getSession(ADD_SUCCESS);?>", "Failed");
     <?php
         Session::unsetSession(ADD_SUCCESS);
-        elseif(Session::hasSession(ADD_ERROR)):
+    elseif(Session::hasSession(ADD_ERROR)):
     ?>
-    toastr.error("Adding a category failed","Failed !");
+        toastr.error("<?=Session::getSession(ADD_ERROR);?>", "Success");
     <?php
-    Session::unsetSession(ADD_ERROR);
-    elseif(Session::hasSession('csrf')):
+        Session::unsetSession(ADD_ERROR);
+    elseif(Session::hasSession(EDIT_ERROR)):
     ?>
-    toastr.error("Unauthorized access, token mismatch !","Token Error !");
+        toastr.error("<?=Session::getSession(EDIT_ERROR);?>", "Failed");
     <?php
-    Session::unsetSession('csrf');
+        Session::unsetSession(EDIT_ERROR);
+    elseif(Session::hasSession(EDIT_SUCCESS)):
+    ?>
+        toastr.success("<?=Session::getSession(EDIT_SUCCESS);?>", "Success");
+    <?php
+        Session::unsetSession(EDIT_SUCCESS);
+    elseif(Session::hasSession(DELETE_SUCCESS)):
+    ?>
+        toastr.success("<?=Session::getSession(DELETE_SUCCESS);?>", "Success");
+    <?php
+        Session::unsetSession(DELETE_SUCCESS);
+    elseif(Session::hasSession(DELETE_ERROR)):
+    ?>
+        toastr.error("<?=Session::getSession(DELETE_ERROR);?>", "Failed");
+    <?php
+        Session::unsetSession(DELETE_ERROR);
     endif;
     ?>
 </script>
+
+<script src="<?=BASEASSETS;?>js/pages/category/manage-category.js"></script>
